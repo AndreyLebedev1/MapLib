@@ -11,7 +11,7 @@
 
 ```bash
 pip install numpy scikit-learn
-
+```
 ## Импорт класса
 ```python
 from your_module import ElasticMapClassifier
@@ -41,7 +41,7 @@ plot: если True, будет построен график.
 ```python
 predictions = model.predict(X=None)  # Если X=None, используются тестовые данные
 X: признаки для предсказания. Если не указано, будут использованы тестовые данные.
-
+```
 ## Оценка модели
 ```python
 model.evaluate()
