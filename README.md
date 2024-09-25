@@ -14,7 +14,7 @@ pip install numpy scikit-learn
 ```
 ## Импорт класса
 ```python
-from your_module import ElasticMapClassifier
+from maps import ElasticMapClassifier
 ```
 
 ## Инициализация модели
