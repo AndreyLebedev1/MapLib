@@ -120,15 +120,18 @@ evaluate(): Оценивает производительность модели
 Перед обучением модели необходимо вызвать метод load_data().
 При вызове метода evaluate() необходимо убедиться, что данные были загружены.
 
-# Usage
+# Запуск скрипта из консоли
+
+Для запуска скрипта в вашем проекте выполните следующую команду в консоли:
+
 ```bash
 {путь к репозиторию в консоли}/Maplib % python {путь к .py скрипту} "{путь к бинарнику с данными}"
 ```
 
-# Examples
+# Запуск примеров
 ```bash
-{путь к репозиторию в консоли}/Maplib % python example_runner_EM_classifier.py "./bin/example_data.pickle"
+/home/user/Maplib % python /home/user/Maplib/example_runner_EM_classifier.py  "./bin/example_data.pickle"
 ```
 ```
-{путь к репозиторию в консоли}/Maplib % python example_runner_SOM_classifier.py "./bin/example_data.pickle"
+/home/user/Maplib % python /home/user/Maplib/example_runner_SOM_classifier.py  "./bin/example_data.pickle"
 ```
