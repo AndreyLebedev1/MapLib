@@ -10,11 +10,11 @@
 Убедитесь, что у вас установлены необходимые библиотеки:
 
 ```bash
-pip install numpy scikit-learn
+pip install -r requirements.txt
 ```
 ## Импорт класса
 ```python
-from maps import ElasticMapClassifier
+from emClassifier import ElasticMapClassifier
 ```
 
 ## Инициализация модели
@@ -91,7 +91,7 @@ evaluate(): Оценивает производительность модели
 Убедитесь, что у вас установлены следующие библиотеки:
 
 ```bash
-pip install numpy scikit-learn minisom
+pip install -r requirements.txt
 ```
 
 ## Загрузка данных

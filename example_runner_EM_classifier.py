@@ -4,7 +4,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-from maps import ElasticMapClassifier
+from emClassifier import ElasticMapClassifier
 
 if __name__ == "__main__":
     path_to_data = sys.argv[1]

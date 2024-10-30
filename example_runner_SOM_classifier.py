@@ -4,7 +4,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-from maps import SOMClassifier
+from somClassifier import SOMClassifier
 
 if __name__ == "__main__":
     path_to_data = sys.argv[1]
