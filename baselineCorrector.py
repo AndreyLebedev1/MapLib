@@ -1,10 +1,8 @@
-import sys
-from dataclasses import dataclass
 import numpy as np
 import scipy
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
-sys.path.append(r'./utils')
+import xml.etree.ElementTree as ET
 
 
 class BaselineCorrector:
@@ -132,17 +130,13 @@ class BaselineCorrector:
 
 
     def correct(self, X):
-        projection_crls_test = self.splitToClusters(
+        projection_test = self.splitToClusters(
             data = (X - self.centre) @ self.project,
             centroids = self.centroids,
             FD = self.FD
         )
 
-        projection_wrls_test = self.splitToClusters(
-            data = (X - self.centre) @ self.project,
-            centroids = self.centroids,
-            FD = self.FD
-        )
+        # print((X - self.centre) @ self.project)
 
         error_prediction = []
 
@@ -155,17 +149,15 @@ class BaselineCorrector:
 
         nClust = len(self.centroids)
 
-        CRLProjClust_test = projection_crls_test
-        WRLProjClust_test = projection_wrls_test
-
         res.clustersTrainingStat = np.zeros((nClust, 6))
         res.clustersTestStat = np.zeros((nClust, 9))
         for k in range(nClust):
-            res.clustersTestStat[k] = self.oneClusterGraph(CRLProjClust_test[k], WRLProjClust_test[k], round(nBins / 10.),
-                    "Distribution of test set for cluster %03d" % k, self.treshs[k])
+            res.clustersTestStat[k] = self.oneClusterGraph(projection_test[k], projection_test[k], round(nBins / 10.),
+                    "", self.treshs[k])
 
-            for elem in CRLProjClust_test[k]:
+            for elem in projection_test[k]:
                 if elem > res.clustersTestStat[k, 2]:
+                    print(elem)
                     error_prediction.append('CR')
                 else:
                     error_prediction.append('WR')
@@ -327,6 +319,32 @@ class BaselineCorrector:
         return res
     
     
-    @staticmethod
     def save_state(self, path):
-        pass
+        root = ET.Element("BaselineCorrector")
+
+        ET.SubElement(root, "numClust").text = str(self.numClust)
+
+        centre_elem = ET.SubElement(root, "centre")
+        centre_elem.text = " ".join(map(str, self.centre))
+
+        project_elem = ET.SubElement(root, "project")
+        for row in self.project:
+            row_elem = ET.SubElement(project_elem, "row")
+            row_elem.text = " ".join(map(str, row))
+
+        centroids_elem = ET.SubElement(root, "centroids")
+        for centroid in self.centroids:
+            centroid_elem = ET.SubElement(centroids_elem, "centroid")
+            centroid_elem.text = " ".join(map(str, centroid))
+
+        FD_elem = ET.SubElement(root, "FD")
+        for row in self.FD:
+            row_elem = ET.SubElement(FD_elem, "row")
+            row_elem.text = " ".join(map(str, row))
+
+        treshs_elem = ET.SubElement(root, "treshs")
+        treshs_elem.text = " ".join(map(str, self.treshs))
+
+        tree = ET.ElementTree(root)
+        with open(path + "/data.xml", "wb") as f:
+            tree.write(f, encoding="utf-8", xml_declaration=True)
